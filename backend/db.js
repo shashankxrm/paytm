@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+// backend/db.js
+const mongoose = require('mongoose');
 
-mongoose.connect("mongodb+srv://shashankxrm:iNCORRECT%4045@cluster0.mwm4ybk.mongodb.net/");
+mongoose.connect("mongodb://localhost:27017/paytm")
 
-// Creating a Schema for Users
-
+// Create a Schema for Users
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -33,10 +33,22 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// Creating a model from the schema
+const accountSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId, // Reference to User model
+        ref: 'User',
+        required: true
+    },
+    balance: {
+        type: Number,
+        required: true
+    }
+});
 
+const Account = mongoose.model('Account', accountSchema);
 const User = mongoose.model('User', userSchema);
 
 module.exports = {
-	User
+	User,
+    Account
 };
